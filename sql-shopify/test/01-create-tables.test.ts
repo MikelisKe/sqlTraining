@@ -47,7 +47,7 @@ const CREATE_KEY_BENEFITS_TABLE = `create table ${KEY_BENEFITS} (
 
 const CREATE_PRICING_PLANS_TABLE = `create table ${PRICING_PLANS} (
     id integer not null primary key,
-    price text not null)`;
+    price text not null )`;
 
 const CREATE_APPS_PRICING_PLANS_TABLE = `create table ${APPS_PRICING_PLANS} (
     app_id integer not null ,
