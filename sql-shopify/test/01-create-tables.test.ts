@@ -33,8 +33,8 @@ const CREATE_APPS_CATEGORIES_TABLE = `create table ${APPS_CATEGORIES} (
     app_id integer not null,
     category_id integer not null,
     primary key (app_id, category_id),
-    foreign key (app_id) references apps(id) on delete cascade on update cascade,
-    foreign key (category_id) references categories(id) on delete cascade on update cascade)
+    foreign key (app_id) references apps(id) on delete restrict on update cascade,
+    foreign key (category_id) references categories(id) on delete restrict on update cascade)
     `;
 
 const CREATE_KEY_BENEFITS_TABLE = `create table ${KEY_BENEFITS} (
@@ -42,7 +42,7 @@ const CREATE_KEY_BENEFITS_TABLE = `create table ${KEY_BENEFITS} (
     title text not null,
     description text not null,
     primary key (app_id, title),
-    foreign key (app_id) references apps(id) on delete cascade on update cascade)
+    foreign key (app_id) references apps(id) on delete restrict on update cascade)
     `;
 
 const CREATE_PRICING_PLANS_TABLE = `create table ${PRICING_PLANS} (
@@ -53,8 +53,9 @@ const CREATE_APPS_PRICING_PLANS_TABLE = `create table ${APPS_PRICING_PLANS} (
     app_id integer not null ,
     pricing_plan_id integer not null,
     primary key (app_id, pricing_plan_id),
-    foreign key (app_id) references apps(id) on delete cascade on update cascade,
-    foreign key (pricing_plan_id) references pricing_plans(id) on delete cascade on update cascade)
+    foreign key (app_id) references apps(id) on delete restrict on update cascade,
+    foreign key (pricing_plan_id) references pricing_plans(id) on delete restrict on update cascade
+    )
     `;
 const CREATE_REVIEWS_TABLE = `create table ${REVIEWS} (
     app_id integer not null,
@@ -64,8 +65,7 @@ const CREATE_REVIEWS_TABLE = `create table ${REVIEWS} (
     helpful_count integer not null,
     date_created text not null,
     developer_reply text null,
-    developer_reply_date text null,
-    foreign key (app_id) references apps(id) on delete cascade on update cascade)
+    developer_reply_date text null)
     `;
 
 const CREATE_INDEX_REVIEWS_AUTHOR = `create index reviews_author_idx on ${REVIEWS} (author) `;

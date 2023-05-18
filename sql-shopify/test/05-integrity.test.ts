@@ -5,64 +5,86 @@ import { minutes } from "./utils";
 import { CATEGORIES, PRICING_PLANS, APPS } from "../src/shopify-table-names";
 
 describe("Foreign Keys", () => {
-    let db: Database;
+  let db: Database;
 
-    beforeAll(async () => {
-        db = await Database.fromExisting("04", "05");
-        await db.execute("PRAGMA foreign_keys = ON");
-    }, minutes(1));
+  beforeAll(async () => {
+    db = await Database.fromExisting("04", "05");
+    await db.execute("PRAGMA foreign_keys = ON");
+  }, minutes(1));
 
-    it("should not be able to delete category if any app is linked", async done => {
-        const categoryId = 6;
-        const query = `todo`;
-        try {
-            await db.delete(query);
-          } catch (e) {}
+  it(
+    "should not be able to delete category if any app is linked",
+    async (done) => {
+      const categoryId = 6;
+      const query = `delete from categories where id = ${categoryId}`;
 
-        const row = await db.selectSingleRow(selectRowById(categoryId, CATEGORIES));
-        expect(row).toBeDefined();
+      try {
+        await db.delete(query);
+      } catch (e) {}
 
-        done();
-    }, minutes(1));
+      const row = await db.selectSingleRow(
+        selectRowById(categoryId, CATEGORIES)
+      );
+      expect(row).toBeDefined();
 
-    it("should not be able to delete pricing plan if any app is linked", async done => {
-        const pricingPlanId = 100;
-        const query = `todo`;
+      done();
+    },
+    minutes(1)
+  );
 
-        try {
-            await db.delete(query);
-          } catch (e) {}
+  it(
+    "should not be able to delete pricing plan if any app is linked",
+    async (done) => {
+      const pricingPlanId = 100;
+      const query = `delete from pricing_plans where id = ${pricingPlanId}
+        `;
 
-        const rows = await db.selectSingleRow(selectRowById(pricingPlanId, PRICING_PLANS));
-        expect(rows).toBeDefined();
+      try {
+        await db.delete(query);
+      } catch (e) {}
 
-        done();
-    }, minutes(1));
+      const rows = await db.selectSingleRow(
+        selectRowById(pricingPlanId, PRICING_PLANS)
+      );
+      expect(rows).toBeDefined();
 
-    it("should not be able to delete app if any data is linked", async done => {
-        const appId = 245;
-        const query = `todo`;
+      done();
+    },
+    minutes(1)
+  );
 
-        try {
-            await db.delete(query);
-          } catch (e) {}
+  it(
+    "should not be able to delete app if any data is linked",
+    async (done) => {
+      const appId = 245;
+      const query = `delete from apps where id = ${appId}`;
 
-        const rows = await db.selectSingleRow(selectRowById(appId, APPS));
-        expect(rows).toBeDefined();
+      try {
+        await db.delete(query);
+      } catch (e) {}
 
-        done();
-    }, minutes(1));
+      const rows = await db.selectSingleRow(selectRowById(appId, APPS));
+      expect(rows).toBeDefined();
 
-    it("should be able to delete app", async done => {
-        const appId = 355;
-        const query = `delete from apps where id = ${appId}`;
-        try {
-            await db.delete(query);
-          } catch (e) {}
+      done();
+    },
+    minutes(1)
+  );
 
-        const rows = await db.selectSingleRow(selectRowById(appId, APPS));
-        expect(rows).toBeUndefined();
+  it(
+    "should be able to delete app",
+    async (done) => {
+      const appId = 355;
+      const query = `delete from apps where id = ${appId}`;
+      try {
+        await db.delete(query);
+      } catch (e) {}
 
-        done();
-    }, minutes(1));
+      const rows = await db.selectSingleRow(selectRowById(appId, APPS));
+      expect(rows).toBeUndefined();
+
+      done();
+    },
+    minutes(1)
+  );
 });
